@@ -2,21 +2,38 @@ pipeline {
     agent any
     
     stages {
-        stage ('build') {
+        stage ('Clean') {
             steps {
-                sh 'echo Compile'
+                sh 'mvn clean'
+            }
+        }
+        stage ('Build') {
+            steps {
+                sh 'mvn compile'
             }
         }
         
-        stage ('test') {
+        stage ('Short Test') {
             steps {
-                sh 'echo Test'
+                sh 'mvn -Dtest=CalculatorTest test'
             }
         }
         
-        stage ('deploy') {
+        stage ('Long Tests') {
             steps {
-                sh 'echo Deploy'
+                sh 'mvn -Dtest=CalculatorTestThorough test'
+            }
+            post {
+                success {
+                    junit 'target/surefire-reports/**/*.xml'
+                }
+            }
+        }
+        stage ('Package') {
+            steps {
+                sh 'mvn package'
+                archiveArtifacts artifacts: 'src/**/*.java'
+                archiveArtifacts artifacts: 'target/*.jar'
             }
         }
     }
