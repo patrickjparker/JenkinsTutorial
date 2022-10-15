@@ -1,6 +1,9 @@
 pipeline {
     agent any
-    
+    tools {
+      jdk 'JDK 8'
+      maven 'apache maven 3.6.3'
+    }
     stages {
         stage ('Clean') {
             steps {
