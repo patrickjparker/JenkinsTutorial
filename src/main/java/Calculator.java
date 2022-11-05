@@ -3,9 +3,8 @@ import java.util.Random;
 
 class Calculator {
 
-    // Here is a change
     Calculator(){
-        Ah a classic blunder
+
     }
 
     int add(int a , int b){
